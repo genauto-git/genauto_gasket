@@ -1,0 +1,210 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "format:PA-{YYYY}-{MM}-{DD}-{#####}",
+ "creation": "2026-04-21 18:43:08.984458",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_alert",
+  "alert_type",
+  "severity",
+  "col_1",
+  "raised_at",
+  "raised_by",
+  "section_context",
+  "location",
+  "machine",
+  "col_2",
+  "department",
+  "photo",
+  "section_desc",
+  "description",
+  "section_assign",
+  "assigned_to",
+  "whatsapp_sent",
+  "col_3",
+  "status",
+  "resolved_at",
+  "section_resolution",
+  "resolution_notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_alert",
+   "fieldtype": "Section Break",
+   "label": "Alert"
+  },
+  {
+   "fieldname": "alert_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "Machine Breakdown\nSafety Incident\nMaterial Shortage\nQuality Issue\nMedical Emergency\nFire/Safety\nOther",
+   "reqd": 1
+  },
+  {
+   "default": "High",
+   "fieldname": "severity",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Severity",
+   "options": "Critical\nHigh\nMedium\nLow",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Now",
+   "fieldname": "raised_at",
+   "fieldtype": "Datetime",
+   "label": "Raised At",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "raised_by",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Raised By",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_context",
+   "fieldtype": "Section Break",
+   "label": "Context"
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "label": "Location"
+  },
+  {
+   "fieldname": "machine",
+   "fieldtype": "Link",
+   "label": "Machine",
+   "options": "Workstation"
+  },
+  {
+   "fieldname": "col_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "label": "Photo"
+  },
+  {
+   "fieldname": "section_desc",
+   "fieldtype": "Section Break",
+   "label": "Description"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "section_assign",
+   "fieldtype": "Section Break",
+   "label": "Assignment"
+  },
+  {
+   "fieldname": "assigned_to",
+   "fieldtype": "Link",
+   "label": "Assigned To (Supervisor)",
+   "options": "Employee"
+  },
+  {
+   "default": "0",
+   "fieldname": "whatsapp_sent",
+   "fieldtype": "Check",
+   "label": "WhatsApp Sent"
+  },
+  {
+   "fieldname": "col_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Open",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Open\nAcknowledged\nIn Progress\nResolved\nFalse Alarm"
+  },
+  {
+   "fieldname": "resolved_at",
+   "fieldtype": "Datetime",
+   "label": "Resolved At",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_resolution",
+   "fieldtype": "Section Break",
+   "label": "Resolution"
+  },
+  {
+   "fieldname": "resolution_notes",
+   "fieldtype": "Text Editor",
+   "label": "Resolution Notes"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-04-21 18:43:08.984458",
+ "modified_by": "Administrator",
+ "module": "Genauto Gasket",
+ "name": "Panic Alert",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "search_fields": "alert_type,severity,status,raised_by",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "alert_type",
+ "track_changes": 1
+}

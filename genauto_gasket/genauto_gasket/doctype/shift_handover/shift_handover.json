@@ -1,0 +1,204 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "format:SH-{YYYY}-{MM}-{#####}",
+ "creation": "2026-04-21 18:43:08.861617",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_basic",
+  "handover_date",
+  "outgoing_shift",
+  "incoming_shift",
+  "col_1",
+  "outgoing_supervisor",
+  "incoming_supervisor",
+  "department",
+  "section_production",
+  "machines_running",
+  "machines_idle",
+  "machines_breakdown",
+  "col_2",
+  "wip_count",
+  "shift_output",
+  "rejections",
+  "section_notes",
+  "pending_issues",
+  "notes_for_next_shift",
+  "section_ack",
+  "acknowledged_by_incoming",
+  "acknowledged_at"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_basic",
+   "fieldtype": "Section Break",
+   "label": "Shift Details"
+  },
+  {
+   "default": "Today",
+   "fieldname": "handover_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "outgoing_shift",
+   "fieldtype": "Link",
+   "label": "Outgoing Shift",
+   "options": "Shift Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "incoming_shift",
+   "fieldtype": "Link",
+   "label": "Incoming Shift",
+   "options": "Shift Type"
+  },
+  {
+   "fieldname": "col_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "outgoing_supervisor",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Outgoing Supervisor",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fieldname": "incoming_supervisor",
+   "fieldtype": "Link",
+   "label": "Incoming Supervisor",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "section_production",
+   "fieldtype": "Section Break",
+   "label": "Production"
+  },
+  {
+   "fieldname": "machines_running",
+   "fieldtype": "Int",
+   "label": "Machines Running"
+  },
+  {
+   "fieldname": "machines_idle",
+   "fieldtype": "Int",
+   "label": "Machines Idle"
+  },
+  {
+   "fieldname": "machines_breakdown",
+   "fieldtype": "Int",
+   "label": "Machines Breakdown"
+  },
+  {
+   "fieldname": "col_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "wip_count",
+   "fieldtype": "Int",
+   "label": "WIP Count (pieces)"
+  },
+  {
+   "fieldname": "shift_output",
+   "fieldtype": "Int",
+   "label": "Shift Output (pieces)"
+  },
+  {
+   "fieldname": "rejections",
+   "fieldtype": "Int",
+   "label": "Rejections"
+  },
+  {
+   "fieldname": "section_notes",
+   "fieldtype": "Section Break",
+   "label": "Handover Notes"
+  },
+  {
+   "fieldname": "pending_issues",
+   "fieldtype": "Text Editor",
+   "label": "Pending Issues"
+  },
+  {
+   "fieldname": "notes_for_next_shift",
+   "fieldtype": "Text Editor",
+   "label": "Notes for Next Shift",
+   "reqd": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_ack",
+   "fieldtype": "Section Break",
+   "label": "Acknowledgement"
+  },
+  {
+   "default": "0",
+   "fieldname": "acknowledged_by_incoming",
+   "fieldtype": "Check",
+   "label": "Acknowledged by Incoming Supervisor"
+  },
+  {
+   "fieldname": "acknowledged_at",
+   "fieldtype": "Datetime",
+   "label": "Acknowledged At",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-04-21 18:43:08.861617",
+ "modified_by": "Administrator",
+ "module": "Genauto Gasket",
+ "name": "Shift Handover",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "search_fields": "outgoing_supervisor,department,handover_date",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "handover_date",
+ "track_changes": 1
+}

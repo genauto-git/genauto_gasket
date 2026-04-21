@@ -1,0 +1,217 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "format:KCDN-{YYYY}-{#####}",
+ "creation": "2026-04-21 18:43:08.710304",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_route",
+  "direction",
+  "from_warehouse",
+  "to_warehouse",
+  "col_1",
+  "vehicle_number",
+  "driver_name",
+  "driver_phone",
+  "section_timing",
+  "dispatched_at",
+  "dispatched_by",
+  "dispatch_scan",
+  "col_2",
+  "received_at",
+  "received_by",
+  "receipt_scan",
+  "section_items",
+  "items",
+  "section_status",
+  "status",
+  "discrepancy_notes",
+  "papa_confirmed",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_route",
+   "fieldtype": "Section Break",
+   "label": "Route"
+  },
+  {
+   "fieldname": "direction",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Direction",
+   "options": "KC \u2192 Main\nMain \u2192 KC",
+   "reqd": 1
+  },
+  {
+   "fieldname": "from_warehouse",
+   "fieldtype": "Link",
+   "label": "From Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "to_warehouse",
+   "fieldtype": "Link",
+   "label": "To Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "vehicle_number",
+   "fieldtype": "Data",
+   "label": "Vehicle Number"
+  },
+  {
+   "fieldname": "driver_name",
+   "fieldtype": "Data",
+   "label": "Driver"
+  },
+  {
+   "fieldname": "driver_phone",
+   "fieldtype": "Data",
+   "label": "Driver Phone"
+  },
+  {
+   "fieldname": "section_timing",
+   "fieldtype": "Section Break",
+   "label": "Timing & Scan"
+  },
+  {
+   "fieldname": "dispatched_at",
+   "fieldtype": "Datetime",
+   "label": "Dispatched At"
+  },
+  {
+   "fieldname": "dispatched_by",
+   "fieldtype": "Link",
+   "label": "Dispatched By",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "dispatch_scan",
+   "fieldtype": "Data",
+   "label": "Dispatch QR Scan"
+  },
+  {
+   "fieldname": "col_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "received_at",
+   "fieldtype": "Datetime",
+   "label": "Received At"
+  },
+  {
+   "fieldname": "received_by",
+   "fieldtype": "Link",
+   "label": "Received By",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "receipt_scan",
+   "fieldtype": "Data",
+   "label": "Receipt QR Scan"
+  },
+  {
+   "fieldname": "section_items",
+   "fieldtype": "Section Break",
+   "label": "Items"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "KC Delivery Note Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_status",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nDispatched\nIn Transit\nReceived\nDiscrepancy\nCancelled"
+  },
+  {
+   "depends_on": "eval:doc.status == 'Discrepancy'",
+   "fieldname": "discrepancy_notes",
+   "fieldtype": "Small Text",
+   "label": "Discrepancy Notes"
+  },
+  {
+   "default": "0",
+   "description": "KC Papa has confirmed this delivery via WhatsApp",
+   "fieldname": "papa_confirmed",
+   "fieldtype": "Check",
+   "label": "Papa Confirmed (WhatsApp)"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "KC Delivery Note",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-04-21 18:43:08.710304",
+ "modified_by": "Administrator",
+ "module": "Genauto Gasket",
+ "name": "KC Delivery Note",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stock Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "search_fields": "vehicle_number,driver_name,status",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "direction",
+ "track_changes": 1
+}
