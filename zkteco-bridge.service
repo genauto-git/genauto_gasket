@@ -1,0 +1,44 @@
+[Unit]
+Description=ZKTeco ADMS → ERPNext HRMS Employee Checkin Bridge
+After=network-online.target docker.service zkteco-adms.service
+Wants=network-online.target
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=master
+Group=master
+WorkingDirectory=/home/master/zkteco-bridge
+
+# Environment (override in /etc/zkteco-bridge.env for secrets)
+EnvironmentFile=/etc/zkteco-bridge.env
+Environment=ADMS_LOG=/opt/eSSL-attlog/data/attendance.jsonl
+Environment=STATE_FILE=/var/lib/zkteco-bridge/state.json
+Environment=ERP_BASE=http://127.0.0.1:9080
+Environment=ERP_HOST=erp.genautoindia.com
+Environment=DEVICE_SN=QJT3253600356
+Environment=POLL_INTERVAL=30
+Environment=PYTHONUNBUFFERED=1
+
+ExecStart=/usr/bin/python3 /home/master/zkteco-bridge/sync.py
+Restart=on-failure
+RestartSec=10
+
+# State dir setup
+RuntimeDirectory=zkteco-bridge
+StateDirectory=zkteco-bridge
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/var/lib/zkteco-bridge
+PrivateTmp=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+
+[Install]
+WantedBy=multi-user.target

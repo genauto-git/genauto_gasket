@@ -1,33 +1,63 @@
-### Genauto Gasket
+# Genauto Gasket — ERPNext Custom App
 
-Gasket-manufacturing extensions for Genauto Gasket Technologies LLP
+Gasket-manufacturing extensions for **Genauto Gasket Technologies LLP** on ERPNext v16.
 
-### Installation
+## Contents
 
-You can install this app using the [bench](https://github.com/frappe/bench) CLI:
+### Custom DocTypes (`genauto_gasket/doctype/`)
+| DocType | Purpose |
+|---|---|
+| **Vehicle Application** | Gasket ↔ vehicle cross-reference (OEM part numbers, competitor refs) |
+| **Die Master** | Tooling catalog with stroke counter, machine assignment |
+| **Frame Master** | Secondary tooling (screen/pad printing frames) |
+| **KC Delivery Note** (submittable) | Inter-factory transit Main ↔ KC Industries with QR scan in/out |
+| **KC Delivery Note Item** (child) | Line items on KC Delivery Note |
+| **Shift Handover** | End-of-shift notes, WIP count, machines state |
+| **Panic Alert** | Factory-floor escalation with severity, WhatsApp integration |
 
+### Custom Fields
+- **Item**: brand, product_type, vehicle_category, die_code, frame_code, rack_location, DDMRP buffer_zone, abc_class, xyz_class, replenishment, alignbooks_id (15 fields)
+- **Employee**: attendance_device_id (native), nfc_card_uid, language_preference, skill_matrix_iluo, pin_4digit (6)
+- **Customer**: region, assigned_asm, buffer_days_target, alignbooks_id (4)
+- **Supplier**: alignbooks_id (1)
+- **Workstation**: machine_type (gasket-specific), tonnage, current_die, current_frame, stroke_counter (5)
+- **Work Order**: die_used, frame_used, kc_dispatch_required (3)
+
+**Total: 34 custom fields across 6 standard DocTypes.**
+
+## Ancillary Scripts
+
+### `bootstrap.py`
+One-time setup: creates all DocTypes + custom fields. Run:
 ```bash
-cd $PATH_TO_YOUR_BENCH
-bench get-app $URL_OF_THIS_REPO --branch N
-bench install-app genauto_gasket
+bench --site erp.genautoindia.com execute genauto_gasket.bootstrap.setup_all
 ```
 
-### Contributing
-
-This app uses `pre-commit` for code formatting and linting. Please [install pre-commit](https://pre-commit.com/#installation) and enable it for this repository:
-
+### `employees.py`
+Bulk imports 86 employees from eSSL biometric roster, maps PIN → `attendance_device_id`, creates service user for bridge. Run:
 ```bash
-cd apps/genauto_gasket
-pre-commit install
+bench --site erp.genautoindia.com execute genauto_gasket.employees.setup_all
 ```
 
-Pre-commit is configured to use the following tools for checking and formatting your code:
+### `zkteco-bridge.py` + `zkteco-bridge.service`
+Sidecar systemd service polling `/opt/eSSL-attlog/data/attendance.jsonl` every 30 s and POSTing to ERPNext `Employee Checkin` API. Deploy to `/home/master/zkteco-bridge/sync.py` + `/etc/systemd/system/zkteco-bridge.service` with creds at `/etc/zkteco-bridge.env`.
 
-- ruff
-- eslint
-- prettier
-- pyupgrade
+## Install
 
-### License
+```bash
+bench get-app https://github.com/genauto-git/genauto_gasket --branch main
+bench --site <site> install-app genauto_gasket
+bench --site <site> execute genauto_gasket.bootstrap.setup_all
+bench --site <site> execute genauto_gasket.employees.setup_all
+bench --site <site> migrate
+```
 
-mit
+## Requires
+- Frappe v16
+- ERPNext v16
+- HRMS v16
+- India Compliance v16
+- Print Designer (main)
+
+## License
+MIT
