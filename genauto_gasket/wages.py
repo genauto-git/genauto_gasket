@@ -20,7 +20,8 @@ from frappe.utils import flt, today
 
 SHIFT_HOURS = 8.5
 OT_MULTIPLIER = 2.0
-OT_CAP_HOURS = 4.0
+OT_CAP_HOURS = 4.0           # weekday OT cap (after 8.5h shift)
+SUNDAY_OT_CAP_HOURS = 12.5   # Sunday day-window cap (full possible day)
 
 
 def days_in_month(date) -> int:
@@ -31,15 +32,21 @@ def days_in_month(date) -> int:
     return calendar.monthrange(d.year, d.month)[1]
 
 
+def is_sunday(date) -> bool:
+    """True if `date` falls on a Sunday (weekday() == 6)."""
+    from frappe.utils import getdate
+    return getdate(date).weekday() == 6
+
+
 def compute_wage_fields(working_hours: float, monthly_salary: float,
                          attendance_date=None) -> dict:
     """Pure function — given hours + salary + date, return wage breakdown.
 
-    Daily rate uses calendar days in the attendance date's month (not fixed 30).
-    Defensible per Indian payroll convention; aligns with how monthly salary is
-    consistent — Apr 30 days → ₹500/day, May 31 days → ₹483.87/day, Feb 28 →
-    ₹535.71/day. Sundays remain paid (no 26-day basis since user policy
-    explicitly includes Sundays as paid weekly off).
+    Weekday: regular up to 8.5h + OT up to 4h (2× rate).
+    Sunday: ALL worked hours are OT (2× rate, no regular bucket) — Sunday is
+            paid weekly off, so any work is overtime per Factories Act spirit.
+    Daily rate uses calendar days in the attendance date's month (Apr 30 →
+    ₹500/day, May 31 → ₹483.87/day, Feb 28 → ₹535.71/day).
     """
     if not monthly_salary or monthly_salary <= 0 or not working_hours or working_hours <= 0:
         return {"regular_hours": 0, "ot_hours": 0,
@@ -50,9 +57,15 @@ def compute_wage_fields(working_hours: float, monthly_salary: float,
     n_days = days_in_month(attendance_date)
     daily_rate = monthly_salary / n_days
     hourly_rate = daily_rate / SHIFT_HOURS
-    regular = min(flt(working_hours), SHIFT_HOURS)
-    ot = max(flt(working_hours) - SHIFT_HOURS, 0)
-    ot = min(ot, OT_CAP_HOURS)
+
+    if is_sunday(attendance_date):
+        # Sunday work — entire worked time is OT
+        regular = 0.0
+        ot = min(flt(working_hours), SUNDAY_OT_CAP_HOURS)
+    else:
+        regular = min(flt(working_hours), SHIFT_HOURS)
+        ot = min(max(flt(working_hours) - SHIFT_HOURS, 0), OT_CAP_HOURS)
+
     daily_wage = regular * hourly_rate
     ot_wage = ot * hourly_rate * OT_MULTIPLIER
     return {
